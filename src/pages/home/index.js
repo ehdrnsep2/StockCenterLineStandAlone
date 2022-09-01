@@ -6,11 +6,6 @@ import Row from "react-bootstrap/Row";
 import { useForm, Controller } from "react-hook-form";
 import { setCalc, useAppContext } from "../../utils/store";
 import { valueNames } from "../../common";
-import {
-  ToastsContainer,
-  ToastsStore,
-  ToastsContainerPosition,
-} from "react-toasts";
 
 export default function Root() {
   const {
@@ -79,11 +74,6 @@ export default function Root() {
   return (
     <>
       <div>
-        <ToastsContainer
-          position={ToastsContainerPosition.TOP_CENTER}
-          store={ToastsStore}
-          lightBackground
-        />
         <Form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
           <Form.Group as={Row} className="mb-3" controlId="max">
             <Form.Label column sm={2}>
