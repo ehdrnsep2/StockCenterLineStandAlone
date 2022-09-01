@@ -12,8 +12,8 @@ function App() {
       <Header />
       <div className="contents">
         <Routes>
-          <Route path="*" element={<HomeRoot />} />
           <Route path="/setting" element={<SettingRoot />}></Route>
+          <Route path="*" element={<HomeRoot />} />
         </Routes>
       </div>
       <Footer />

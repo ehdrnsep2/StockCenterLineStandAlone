@@ -10,9 +10,9 @@ export default function Header() {
     <>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="/">CL 계산기</Navbar.Brand>
+          <Navbar.Brand href={process.env.PUBLIC_URL}>CL 계산기</Navbar.Brand>
           <Nav>
-            <Nav.Link href="/setting">
+            <Nav.Link href={process.env.PUBLIC_URL + "/setting"}>
               <IoSettingsOutline size={30} />
             </Nav.Link>
           </Nav>
