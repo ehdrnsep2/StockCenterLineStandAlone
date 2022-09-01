@@ -6,6 +6,11 @@ import Row from "react-bootstrap/Row";
 import { useForm, Controller } from "react-hook-form";
 import { setCalc, useAppContext } from "../../utils/store";
 import { valueNames } from "../../common";
+import {
+  ToastsContainer,
+  ToastsStore,
+  ToastsContainerPosition,
+} from "react-toasts";
 
 export default function Root() {
   const {
@@ -61,117 +66,133 @@ export default function Root() {
     setResultText(text);
 
     dispatch(setCalc(min, max, unit));
+    console.log("gg");
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        alert("클립보드에 복사를 완료하였습니다.");
+      })
+      .catch((err) => {
+        alert("Something went wrong\t" + err);
+      });
   };
   return (
     <>
-      <Form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
-        <Form.Group as={Row} className="mb-3" controlId="max">
-          <Form.Label column sm={2}>
-            최대값
-          </Form.Label>
-          <Col sm={10}>
-            <Controller
-              control={control}
-              name="max"
-              defaultValue={max}
-              render={({ field: { onChange, onBlur, value, ref } }) => (
-                <Form.Control
-                  type="number"
-                  onChange={onChange}
-                  value={value}
-                  ref={ref}
-                  isInvalid={errors.max}
-                  required
-                />
-              )}
+      <div>
+        <ToastsContainer
+          position={ToastsContainerPosition.TOP_CENTER}
+          store={ToastsStore}
+          lightBackground
+        />
+        <Form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
+          <Form.Group as={Row} className="mb-3" controlId="max">
+            <Form.Label column sm={2}>
+              최대값
+            </Form.Label>
+            <Col sm={10}>
+              <Controller
+                control={control}
+                name="max"
+                defaultValue={max}
+                render={({ field: { onChange, onBlur, value, ref } }) => (
+                  <Form.Control
+                    type="number"
+                    onChange={onChange}
+                    value={value}
+                    ref={ref}
+                    isInvalid={errors.max}
+                    required
+                  />
+                )}
+              />
+            </Col>
+            <Form.Control.Feedback type="invalid">
+              {errors.max?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group as={Row} className="mb-3" controlId="min">
+            <Form.Label column sm={2}>
+              최소값
+            </Form.Label>
+            <Col sm={10}>
+              <Controller
+                control={control}
+                name="min"
+                defaultValue={min}
+                render={({ field: { onChange, onBlur, value, ref } }) => (
+                  <Form.Control
+                    type="number"
+                    onChange={onChange}
+                    value={value}
+                    ref={ref}
+                    isInvalid={errors.min}
+                    required
+                  />
+                )}
+              />
+            </Col>
+            <Form.Control.Feedback type="min">
+              {errors.min?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group as={Row} className="mb-3" controlId="unit">
+            <Form.Label column sm={2}>
+              단위
+            </Form.Label>
+            <Col sm={10}>
+              <Controller
+                control={control}
+                name="unit"
+                defaultValue={unit}
+                render={({ field: { onChange, onBlur, value, ref } }) => (
+                  <Form.Control
+                    type="number"
+                    onChange={onChange}
+                    value={value}
+                    ref={ref}
+                    isInvalid={errors.unit}
+                    required
+                  />
+                )}
+              />
+            </Col>
+            <Form.Control.Feedback type="invalid">
+              {errors.unit?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group as={Row} className="my-5">
+            <Button type="submit" size="lg">
+              계산하기
+            </Button>
+          </Form.Group>
+        </Form>
+
+        <hr className="my-3" />
+        <div className="row mb-3">
+          <label className="col-sm-2 col-form-label">이격</label>
+          <div className="col-sm-8">
+            <input
+              readOnly={true}
+              type="text"
+              className="form-control"
+              id="resultGap"
+              value={result}
             />
-          </Col>
-          <Form.Control.Feedback type="invalid">
-            {errors.max?.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-
-        <Form.Group as={Row} className="mb-3" controlId="min">
-          <Form.Label column sm={2}>
-            최소값
-          </Form.Label>
-          <Col sm={10}>
-            <Controller
-              control={control}
-              name="min"
-              defaultValue={min}
-              render={({ field: { onChange, onBlur, value, ref } }) => (
-                <Form.Control
-                  type="number"
-                  onChange={onChange}
-                  value={value}
-                  ref={ref}
-                  isInvalid={errors.min}
-                  required
-                />
-              )}
-            />
-          </Col>
-          <Form.Control.Feedback type="min">
-            {errors.min?.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-
-        <Form.Group as={Row} className="mb-3" controlId="unit">
-          <Form.Label column sm={2}>
-            단위
-          </Form.Label>
-          <Col sm={10}>
-            <Controller
-              control={control}
-              name="unit"
-              defaultValue={unit}
-              render={({ field: { onChange, onBlur, value, ref } }) => (
-                <Form.Control
-                  type="number"
-                  onChange={onChange}
-                  value={value}
-                  ref={ref}
-                  isInvalid={errors.unit}
-                  required
-                />
-              )}
-            />
-          </Col>
-          <Form.Control.Feedback type="invalid">
-            {errors.unit?.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-
-        <Form.Group as={Row} className="my-5">
-          <Button type="submit" size="lg">
-            계산하기
-          </Button>
-        </Form.Group>
-      </Form>
-
-      <hr className="my-3" />
-      <div className="row mb-3">
-        <label className="col-sm-2 col-form-label">이격</label>
-        <div className="col-sm-8">
-          <input
-            readOnly={true}
-            type="text"
-            className="form-control"
-            id="resultGap"
-            value={result}
-          />
+          </div>
         </div>
-      </div>
-      <div className="my-2">
-        <div className="d-flex justify-content-center">
-          <textarea
-            className="form-control w-50 p-3"
-            rows="7"
-            id="txtResult"
-            defaultValue={resultText}
-            readOnly={true}
-          ></textarea>
+        <div className="my-2">
+          <div className="d-flex justify-content-center">
+            <textarea
+              className="form-control w-50 p-3"
+              rows="7"
+              id="txtResult"
+              defaultValue={resultText}
+              readOnly={true}
+            ></textarea>
+          </div>
         </div>
       </div>
     </>

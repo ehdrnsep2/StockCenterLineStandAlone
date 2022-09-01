@@ -36,8 +36,8 @@ export default function Root() {
       }
     }
     const colorText = colors.join(",");
-    console.log(colorText);
     dispatch(setSetting(weight, colorText));
+    alert("저장을 완료하였습니다.");
   };
 
   const onChange = (e) => {};
